@@ -49,23 +49,24 @@ Sub AllStocksAnalysisRefactored()
     
     ''2a) Create a for loop to initialize the tickerVolumes to zero.
     For i = 0 To 11
-        ticker = tickers(tickerIndex)
-        tickerVolumes(tickerIndex) = 0
+        tickerVolumes(i) = 0
+        
+    Next i
         
     ''2b) Loop over all the rows in the spreadsheet.
     Sheets(yearValue).Activate
-        For j = 2 To RowCount
+    For j = 2 To RowCount
     
         '3a) Increase volume for current ticker
-            If Cells(j, 1).Value = ticker Then
+            ''If Cells(j, 1).Value = tickers(tickerIndex) Then
             
                 tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(j, 8).Value
                 
-            End If
+           ''End If
         
         '3b) Check if the current row is the first row with the selected tickerIndex.
         'If  Then
-              If Cells(j - 1, 1).Value <> ticker And Cells(j, 1).Value = ticker Then
+              If Cells(j - 1, 1).Value <> tickers(tickerIndex) Then
                 
                 tickerStartingPrices(tickerIndex) = Cells(j, 6).Value
         'End If
@@ -73,7 +74,7 @@ Sub AllStocksAnalysisRefactored()
         
         '3c) check if the current row is the last row with the selected ticker
             'If then
-              If Cells(j + 1, 1).Value <> ticker And Cells(j, 1).Value = ticker Then
+              If Cells(j + 1, 1).Value <> tickers(tickerIndex) Then
                  
                 tickerEndingPrices(tickerIndex) = Cells(j, 6).Value
                 
@@ -81,7 +82,7 @@ Sub AllStocksAnalysisRefactored()
         
          '3d) If the next row's ticker doesn't match, increase the tickerIndex.
             'If then
-                If Cells(j + 1, 1).Value <> ticker And Cells(j, 1).Value = ticker Then
+                If Cells(j + 1, 1).Value <> tickers(tickerIndex) And Cells(j, 1).Value = tickers(tickerIndex) Then
 
             '3d Increase the tickerIndex.
                 tickerIndex = tickerIndex + 1
@@ -91,7 +92,6 @@ Sub AllStocksAnalysisRefactored()
     
         Next j
         
-    Next i
 
     
     '4) Loop through your arrays to output the Ticker, Total Daily Volume, and Return.
